@@ -10,7 +10,7 @@ import sys, os, re
 # Deal with adding the requisite GEM GUI modules to the path
 if not os.environ.get('GEMROOT', None):
     # Try to get the GEM path from this module's path.
-    p = re.compile('.*/GEM/')
+    p = re.compile('.*/GEM-prosociality/')
     m = p.match(os.path.join(os.path.abspath(os.path.curdir), __file__))
     if m:
         os.environ['GEMROOT'] = m.group(0)
@@ -22,7 +22,7 @@ from GEMIO import get_metronome_port
 
 # Indicate the serial# of the metronome Arduino.
 # This is used to search for the correct port information
-metronome_serial_num = "9543731333535131D171"
+metronome_serial_num = "95137313932351C031A1"
 
 # Define experimental presets
 presets = {
@@ -33,7 +33,7 @@ presets = {
     "filename": "GEM_example",
 
     # directory for output data
-    "data_dir": "/Users/" + os.environ['USER'] + "/Desktop/GEM_data/demo_data/",
+    "data_dir": "/Users/" + os.environ['USER'] + "/Desktop/GEM-prosociality_data/demo_data/",
 
     # path to GEMConstants.h
     "hfile": os.path.join(os.environ['GEMROOT'],"GEM/GEMConstants.h"),
