@@ -51,7 +51,7 @@ presets = {
     "repeats": 1,
 
     # number of metronome clicks
-    "windows": 20,
+    "windows": 10,
 
     # audio feedback condition; NB: at present, only "hear_metronome" available.
     # Future releases will allow for all variations on hearing self, metronome,
