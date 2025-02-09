@@ -15,7 +15,7 @@ from gem_control_file import GEMDataFileReader # using Petr's new class
 
 # define filepaths of input and output
 # TODO rather than passing each file individually, write a loop that retrieves all files in /Users/beatlab/Desktop/GEM-prosociality-data/demo_data/*
-ifile = "/Users/beatlab/Desktop/GEM-prosociality_data/demo_data/20250108/GEM_example-069852aa_069852aa_069852aa_069852aa.gdf"
+ifile = "/Users/beatlab/Desktop/GEM-prosociality_data/test-runs/20250124/GEM_pilot_neg1-070234aa_070234aa_070234aa_070234aa.gdf"
 ofile = "/Users/beatlab/Desktop/GEM-prosociality_data/demo_data/20250108/GEM_example-069852aa_069852aa_069852aa_069852aa.json"
 
 # read the gdf input file from an experiment

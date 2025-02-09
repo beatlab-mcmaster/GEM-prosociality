@@ -30,10 +30,10 @@ presets = {
     "serial": {"port": get_metronome_port(serial_num=metronome_serial_num), "baud_rate": 115200, "timeout": 5},
 
     # beginning of output file string for output data files
-    "filename": "GEM_pilot_neg1",
+    "filename": "GEM_pilot_baseline0_PD",
 
     # directory for output data
-    "data_dir": "/Users/" + os.environ['USER'] + "/Desktop/GEM-prosociality_data/demo_data/",
+    "data_dir": "/Users/" + os.environ['USER'] + "/Desktop/GEM-prosociality_data/exp_data/",
 
     # path to GEMConstants.h
     "hfile": os.path.join(os.environ['GEMROOT'],"GEM/GEMConstants.h"),
@@ -42,13 +42,13 @@ presets = {
     "tappers_requested": 4,
 
     # metronome adaptivity levels to be used
-    "metronome_alpha": [-1],
+    "metronome_alpha": [0],
 
     # tempo of the metronome; unit: beats-per-minute
     "metronome_tempo": 120.0,
 
     # number of repetitions for each alpha value
-    "repeats": 6,
+    "repeats": 8,
 
     # number of metronome clicks
     "windows": 64,
