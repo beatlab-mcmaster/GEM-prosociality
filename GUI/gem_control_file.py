@@ -10,6 +10,8 @@ import pandas as pd
 
 import pdb
 
+import ast # JLS 20250307
+
 # GEMDataFileReader is based on GEMDataFile from GEM/GUI/GEMIO.py
 class GEMDataFileReader:
     def __init__(self, filepath):
@@ -283,7 +285,7 @@ class GEMRun:
 
     # Get the indices of valid tappers
     def get_valid_tapper_idxs(self):
-        return [int(subject['pad'])-1 for subject in self.parent.file_hdr['subject_info']]
+        return [ast.literal_eval(subject['pad'])[0]-1 for subject in self.parent.file_hdr['subject_info']] # JLS 20250307: using ast to extract tuple rather than int(), which threw a ValueError: invalid literal for int() with base 10: '(1,)'
 
 
     def get_valid_tapper_ids(self):
