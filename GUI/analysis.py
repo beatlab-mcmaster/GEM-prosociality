@@ -1,21 +1,13 @@
-import copy
-
-from django.db.models import Max
-from django.core.files.base import ContentFile
-from django.db import transaction
-
 from gem_control_file import GEMDataFileReader
 
 import numpy as np
 import pandas as pd
 
-import pdb
-
 import os
 import glob
 import re
 
-# Petr defined params in a separate file, but a lot of the parameters referred to pyensemble things. Let's see if we even need params.
+# Petr defined params in a separate file, but a lot of the parameters referred to pyensemble things. 
 params = {
     'here': '/Users/beatlab/Desktop/GEM-prosociality_data/exp_data',
     'num_pacing_clicks': 3
@@ -41,9 +33,10 @@ def create_run_per_trial_dataframe(filepath, params=params):
     gdf = GEMDataFileReader(filepath)
     gdf.read_file()
 
-    # extract metadata from filepath
-    pattern = params['here'] + r"/[^/]+/[^_]+_[^_]+_([^_-]+)-\d+(\w+)_\d+(\w+)_\d+(\w+)_\d+(\w+)"
-    match = re.search(pattern, filepath)
+    # extract metadata from filename
+    filename = os.path.basename(filepath) # extract only the filename (remove the directory path)
+    pattern = r"GEM_pilot_([\w_]+)-\d+(\w+)_\d+(\w+)_\d+(\w+)_\d+(\w+)"
+    match = re.search(pattern, filename)
     if match:
         metadata = {
             'condition': match.group(1),     
@@ -62,6 +55,7 @@ def create_run_per_trial_dataframe(filepath, params=params):
 
             # Create a dataframe of tapper stats with one row per participant
             ts_df = pd.DataFrame(curr_run.tapper_stats).T
+            ts_df.reset_index(names = 'p_id', inplace = True) # JLS: reset index to merge with metadata_df
 
             # Get run metadata and metronome stats
             metadata.update(curr_run.hdr)
@@ -82,10 +76,24 @@ def create_run_per_trial_dataframe(filepath, params=params):
                 run_data = new_df 
 
             else:
-                run_data = pd.concat([run__data, new_df]).reset_index(drop=True)
+                run_data = pd.concat([run_data, new_df]).reset_index(drop=True)
 			
     return run_data
 
-# TODO create_run_per_trial_dataframe runs, but returns an empty DataFrame despite correctly initialized columns: 
-# Columns: [condition, group_id, run_number, start_time, alpha, tempo, met_adjust_mean, met_adjust_std, mean_grp_asynch_per_window, std_grp_asynch_per_window, num_missed, mean_async_rel_met, std_async_rel_met, mean_async_rel_grp, std_async_rel_grp]
-# Index: []
+# iterate over files
+df = pd.DataFrame() # initiate results dataframe
+filepaths = get_file_paths(**params) # get all files in result directory
+for file in filepaths:
+    run_data = create_run_per_trial_dataframe(file, params=params)
+    if df.empty:
+        df =  run_data
+
+    else:
+        df = pd.concat([df, run_data]).reset_index(drop=True)
+
+# remove time from p_id column, keep only two letters
+df['p_id'] = df['p_id'].str.replace(r'\d+', '', regex=True)
+
+# save to csv
+out_path = params['here'] + '/df.csv'
+df.to_csv(out_path, index=False) 
