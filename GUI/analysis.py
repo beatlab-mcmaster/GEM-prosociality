@@ -1,11 +1,14 @@
-from gem_control_file import GEMDataFileReader
-
 import numpy as np
 import pandas as pd
 
 import os
 import glob
 import re
+
+os.chdir("GUI")
+
+from gem_control_file import GEMDataFileReader
+
 
 # Petr defined params in a separate file, but a lot of the parameters referred to pyensemble things. 
 params = {

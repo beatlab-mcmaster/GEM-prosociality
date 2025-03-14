@@ -375,6 +375,12 @@ class GEMRun:
         # Calculate the std of the per-window group sd asynch
         per_run_group_stats['std_grp_asynch_per_window'] = df['std_tapper_asynchrony'].std(skipna=True)
 
+        # JLS 20250314: Calculate the mean of the per-window group mean asynch
+        per_run_group_stats['mean_grp_mean_asynch_per_window'] = df['mean_tapper_asynchrony'].mean(skipna=True)
+
+        # JLS 20250314: Calculate the std of the per-window group mean asynch
+        per_run_group_stats['std_grp_mean_asynch_per_window'] = df['mean_tapper_asynchrony'].std(skipna=True)
+
         # Update our stats
         self.tapper_stats.update(per_run_subject_stats.T.to_dict())
         self.metronome_stats.update(per_run_met_stats)
